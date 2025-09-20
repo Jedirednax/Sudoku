@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuBoardLibrary", "SudokuBoardLibrary\SudokuBoardLibrary.csproj", "{10A3D15A-6EC0-4C53-B1DE-838AC5C05FF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuConsoleApp", "SudokuConsoleApp\SudokuConsoleApp.csproj", "{E5513B6B-2C9C-4E74-A7DE-8EC2A2FD4EF2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SudokuMobileApp", "SudokuMobileApp\SudokuMobileApp.csproj", "{C4DF4C4A-FF06-4A0B-9AEB-214156B028A1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{10A3D15A-6EC0-4C53-B1DE-838AC5C05FF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10A3D15A-6EC0-4C53-B1DE-838AC5C05FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10A3D15A-6EC0-4C53-B1DE-838AC5C05FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10A3D15A-6EC0-4C53-B1DE-838AC5C05FF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5513B6B-2C9C-4E74-A7DE-8EC2A2FD4EF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5513B6B-2C9C-4E74-A7DE-8EC2A2FD4EF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5513B6B-2C9C-4E74-A7DE-8EC2A2FD4EF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5513B6B-2C9C-4E74-A7DE-8EC2A2FD4EF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4DF4C4A-FF06-4A0B-9AEB-214156B028A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4DF4C4A-FF06-4A0B-9AEB-214156B028A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4DF4C4A-FF06-4A0B-9AEB-214156B028A1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C4DF4C4A-FF06-4A0B-9AEB-214156B028A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4DF4C4A-FF06-4A0B-9AEB-214156B028A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4DF4C4A-FF06-4A0B-9AEB-214156B028A1}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
