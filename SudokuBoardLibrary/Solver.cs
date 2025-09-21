@@ -2,6 +2,20 @@
 
 namespace SudokuBoardLibrary
 {
+    public enum SolveMethod
+    {
+        Constraint,
+        Eliminate,
+        RemainingBlocks,
+        ObviousPair,
+        ObviousTriple,
+        HiddenPair,
+        HiddenTriple,
+        PointingPair,
+        PointingTriple,
+        XWing,
+        XYWing
+    }
     /// <summary>
     /// Solves Sudoku boards using basic to advanced Strategies.
     /// </summary>
@@ -19,7 +33,7 @@ namespace SudokuBoardLibrary
             this.board = board;
         }
 
-        public List<string> MethodsUsed { get; set; } = [];
+        public List<SolveMethod> MethodsUsed = [];
         #region Solving Techiques
         #region Constraint
         /// <summary>
@@ -1083,121 +1097,100 @@ namespace SudokuBoardLibrary
 
         public bool HiddenTripleRow(int inRow, int inCol)
         {
-            // Debug.WriteLine("===========================");
-            Cell startCell = board.GetCell(inRow,inCol);
+
+            Cell startCell = board.GetCell(inRow, inCol);
             bool inserted = false;
-            // Debug.WriteLine(startCell.PrintDebug(), "StartCell");
 
             if(startCell.CellPossible.Count < 3)
             {
-                // Debug.WriteLine("only 2 cells");
-                return inserted;
+                return false;
             }
-
-            List<int> rowsPoss = board.GetRowPoss(inRow);
-
+            List<int> rowPoss = board.GetRowPoss(inRow);
             List<int> targetValues = [];
+
             foreach(int cellPos in startCell.CellPossible)
             {
-                int rowPossC = rowsPoss.Where(y => y == cellPos).Count();
-                if(rowPossC >= 2 && rowPossC <= 3)
+                int count = rowPoss.Count(y => y == cellPos);
+                if(count >= 2 && count <= 3)
                 {
                     targetValues.Add(cellPos);
                 }
             }
-            //Debug.WriteLine(targetValues.Count, "TG Count");
-            List<Cell> cellRem = [];
-            if(targetValues.Count == 3)
-            {
-                //Debug.WriteLine("Has trhree");
-                foreach(Cell cell in board.GetUnPopRowCells(inRow))
-                {
-                    //bool conAll = true;
-                    foreach(int cellPos in targetValues)
-                    {
-                        if(cell.CellPossible.Contains(cellPos))
-                        {
-                            cellRem.Add(cell);
-                        }
-                    }
-                }
 
-                foreach(Cell tgCell in cellRem)
+            if(targetValues.Count != 3)
+            {
+                return false;
+            }
+            // find all cells in the row that contain any of the target values
+            List<Cell> candidateCells = board.GetUnPopRowCells(inRow)
+        .Where(c => c.CellPossible.Any(p => targetValues.Contains(p)))
+        .ToList();
+
+            if(candidateCells.Count != 3)
+            {
+                return false;
+            }
+            foreach(Cell tgCell in candidateCells)
+            {
+                int removed = tgCell.CellPossible.RemoveAll(x => !targetValues.Contains(x));
+                if(removed > 0)
                 {
-                    //    Debug.WriteLine(tgCell.PrintDebug(), "RemoveCell");
-                    if(tgCell.CellPossible.Any(f => targetValues.Contains(f)))
-                    {
-                        tgCell.CellPossible.RemoveAll(x => !targetValues.Contains(x));
-                        inserted = true;
-                    }
+                    Debug.WriteLine(tgCell.PrintDebug(), "HiddenTripleRow Remove");
+                    inserted = true;
                 }
             }
+
             return inserted;
         }
+
+        // TODO FIX InfinateLoop
         public bool HiddenTripleCol(int inRow, int inCol)
         {
-            // Debug.WriteLine("===========================");
-            Cell startCell = board.GetCell(inRow,inCol);
+            Cell startCell = board.GetCell(inRow, inCol);
             bool inserted = false;
-            // Debug.WriteLine(startCell.PrintDebug(), "StartCell");
 
             if(startCell.CellPossible.Count < 3)
             {
-                // Debug.WriteLine("only 2 cells");
-                return inserted;
+                return false;
             }
 
-            List<int> rowsPoss = board.GetColumnPoss(inCol);
-
+            List<int> colPoss = board.GetColumnPoss(inCol);
             List<int> targetValues = [];
+
             foreach(int cellPos in startCell.CellPossible)
             {
-                int rowPossC = rowsPoss.Where(y => y == cellPos).Count();
-                if(rowPossC >= 2 && rowPossC <= 3)
+                int count = colPoss.Count(y => y == cellPos);
+                if(count >= 2 && count <= 3)
                 {
                     targetValues.Add(cellPos);
                 }
             }
-            //Debug.WriteLine(targetValues.Count, "TG Count");
-            List<Cell> cellRem = [];
-            if(targetValues.Count == 3)
+
+            if(targetValues.Count != 3)
             {
-                //Debug.WriteLine("Has trhree");
-                foreach(Cell cell in board.GetUnPopColumnCells(inCol))
+                return false;
+            }
+
+            // find all cells in the col that contain any of the target values
+            List<Cell> candidateCells = board.GetUnPopColumnCells(inCol)
+        .Where(c => c.CellPossible.Any(p => targetValues.Contains(p)))
+        .ToList();
+
+            if(candidateCells.Count != 3)
+            {
+                return false;
+            }
+
+            foreach(Cell tgCell in candidateCells)
+            {
+                int removed = tgCell.CellPossible.RemoveAll(x => !targetValues.Contains(x));
+                if(removed > 0)
                 {
-                    //bool conAll = true;
-                    foreach(int cellPos in targetValues)
-                    {
-                        if(cell.CellPossible.Contains(cellPos))
-                        {
-                            cellRem.Add(cell);
-                            break;
-                        }
-                    }
-                }
-                Debug.WriteLine(cellRem.Count);
-                if(cellRem.Count != 3)
-                {
-                    return inserted;
-                }
-                foreach(Cell tgCell in cellRem)
-                {
-                    if(tgCell.CellPossible.TrueForAll(f => targetValues.Contains(f)))
-                    {
-                        // continue;
-                        //if(tgCell.CellPossibilities.Any(f => targetValues.Contains(f)))
-                        //{
-                        if(tgCell.CellPossible.RemoveAll(x => !targetValues.Contains(x)) > 0)
-                        {
-                            Debug.WriteLine(tgCell.PrintDebug(), "RemoveCell");
-                            inserted = true;
-                        }
-                    }
-                    else
-                    { continue; }
-                    //}
+                    Debug.WriteLine(tgCell.PrintDebug(), "HiddenTripleCol Remove");
+                    inserted = true;
                 }
             }
+
             return inserted;
         }
         #endregion
@@ -2032,26 +2025,26 @@ namespace SudokuBoardLibrary
                 Inserted = ConstraintSolve();
                 if(Inserted)
                 {
-                    MethodsUsed.Add("Constraint");
+                    MethodsUsed.Add(SolveMethod.Constraint);
                 }
                 if(Inserted && disp)
                 {
-                    Debug.WriteLine("Constraint");
-                    Console.WriteLine("Constraint");
-                    board.ColourBoardDisplay();
+                    Debug.WriteLine(SolveMethod.Constraint);
+                    //Console.WriteLine(SolveMethod.Constraint);
+                    //board.ColourBoardDisplay();
                 }
                 if(!Inserted)
                 {
                     Inserted = EliminateSolve();
                     if(Inserted)
                     {
-                        MethodsUsed.Add("Eliminate");
+                        MethodsUsed.Add(SolveMethod.Eliminate);
                     }
                     if(Inserted && disp)
                     {
-                        Debug.WriteLine("Eliminate");
-                        Console.WriteLine("Eliminate");
-                        board.ColourBoardDisplay();
+                        Debug.WriteLine(SolveMethod.Eliminate);
+                        //Console.WriteLine(SolveMethod.Eliminate);
+                        //board.ColourBoardDisplay();
                     }
                 }
                 if(!Inserted)
@@ -2059,13 +2052,13 @@ namespace SudokuBoardLibrary
                     Inserted = RemainingBlocks();
                     if(Inserted)
                     {
-                        MethodsUsed.Add("RemaningBlocks");
+                        MethodsUsed.Add(SolveMethod.RemainingBlocks);
                     }
                     if(Inserted && disp)
                     {
-                        Debug.WriteLine("Remaing Blocks");
-                        Console.WriteLine("Remaing Blocks");
-                        board.ColourBoardDisplay();
+                        Debug.WriteLine(SolveMethod.RemainingBlocks);
+                        //Console.WriteLine(SolveMethod.RemainingBlocks);
+                        //board.ColourBoardDisplay();
                     }
                 }
                 if(!Inserted)
@@ -2073,13 +2066,13 @@ namespace SudokuBoardLibrary
                     Inserted = ObviousPair();
                     if(Inserted)
                     {
-                        MethodsUsed.Add("ObviousPair");
+                        MethodsUsed.Add(SolveMethod.ObviousPair);
                     }
                     if(Inserted && disp)
                     {
-                        Debug.WriteLine("Obvious pair");
-                        Console.WriteLine("Obvious pair");
-                        board.ColourBoardDisplay();
+                        Debug.WriteLine(SolveMethod.ObviousPair);
+                        //Console.WriteLine(SolveMethod.ObviousPair);
+                        //board.ColourBoardDisplay();
                     }
                 }
                 if(!Inserted)
@@ -2087,13 +2080,13 @@ namespace SudokuBoardLibrary
                     Inserted = ObviousTrip();
                     if(Inserted)
                     {
-                        MethodsUsed.Add("ObviousTriple");
+                        MethodsUsed.Add(SolveMethod.ObviousTriple);
                     }
                     if(Inserted && disp)
                     {
-                        Debug.WriteLine("Obv Triple");
-                        Console.WriteLine("Obv Triple");
-                        board.ColourBoardDisplay();
+                        Debug.WriteLine(SolveMethod.ObviousTriple);
+                        //Console.WriteLine(SolveMethod.ObviousTriple);
+                        //board.ColourBoardDisplay();
                     }
                 }
 
@@ -2102,13 +2095,13 @@ namespace SudokuBoardLibrary
                     Inserted = HiddenPair();
                     if(Inserted)
                     {
-                        MethodsUsed.Add("HiddenPair");
+                        MethodsUsed.Add(SolveMethod.HiddenPair);
                     }
                     if(Inserted && disp)
                     {
-                        Debug.WriteLine("Hidden Pair");
-                        Console.WriteLine("Hidden Pair");
-                        board.ColourBoardDisplay();
+                        Debug.WriteLine(SolveMethod.HiddenPair);
+                        //Console.WriteLine(SolveMethod.HiddenPair);
+                        //board.ColourBoardDisplay();
                     }
                 }
                 if(!Inserted)
@@ -2116,13 +2109,13 @@ namespace SudokuBoardLibrary
                     Inserted = HiddenTriple();
                     if(Inserted)
                     {
-                        MethodsUsed.Add("HiddenTriple");
+                        MethodsUsed.Add(SolveMethod.HiddenTriple);
                     }
                     if(Inserted && disp)
                     {
-                        Debug.WriteLine("Hidden Triple");
-                        Console.WriteLine("Hidden Triple");
-                        board.ColourBoardDisplay();
+                        Debug.WriteLine(SolveMethod.HiddenTriple);
+                        //Console.WriteLine(SolveMethod.HiddenTriple);
+                        //board.ColourBoardDisplay();
                     }
                 }
 
@@ -2131,13 +2124,13 @@ namespace SudokuBoardLibrary
                     Inserted = PointingPair();
                     if(Inserted)
                     {
-                        MethodsUsed.Add("PointingPair");
+                        MethodsUsed.Add(SolveMethod.PointingPair);
                     }
                     if(Inserted && disp)
                     {
-                        Debug.WriteLine("PotingPair");
-                        Console.WriteLine("PotingPair");
-                        board.ColourBoardDisplay();
+                        Debug.WriteLine(SolveMethod.PointingPair);
+                        //Console.WriteLine(SolveMethod.PointingPair);
+                        //board.ColourBoardDisplay();
                     }
                 }
                 if(!Inserted)
@@ -2145,13 +2138,13 @@ namespace SudokuBoardLibrary
                     Inserted = PointingTriple();
                     if(Inserted)
                     {
-                        MethodsUsed.Add("PointingTriple");
+                        MethodsUsed.Add(SolveMethod.PointingTriple);
                     }
                     if(Inserted && disp)
                     {
-                        Debug.WriteLine("Poting Triple");
-                        Console.WriteLine("Poting Triple");
-                        board.ColourBoardDisplay();
+                        Debug.WriteLine(SolveMethod.PointingTriple);
+                        //Console.WriteLine(SolveMethod.PointingTriple);
+                        //board.ColourBoardDisplay();
                     }
                 }
                 if(!Inserted)
@@ -2159,30 +2152,30 @@ namespace SudokuBoardLibrary
                     Inserted = XWing();
                     if(Inserted)
                     {
-                        MethodsUsed.Add("XWing");
+                        MethodsUsed.Add(SolveMethod.XWing);
                     }
                     if(Inserted && disp)
                     {
-                        Debug.WriteLine("Xwing");
-                        Console.WriteLine("Xwing");
-                        board.ColourBoardDisplay();
+                        Debug.WriteLine(SolveMethod.XWing);
+                        //Console.WriteLine(SolveMethod.XWing);
+                        //board.ColourBoardDisplay();
                     }
                 }
-                if(!Inserted)
-                {
-                    Inserted = XYWing();
-                    if(Inserted)
-                    {
-                        MethodsUsed.Add("XYWing");
-                    }
-                    if(Inserted && disp)
-                    {
-                        Debug.WriteLine("XYwing");
-                        Console.WriteLine("XYwing");
-                        board.ColourBoardDisplay();
-                    }
-                }
-                Console.ReadLine();
+                //if(!Inserted)
+                //{
+                //    Inserted = XYWing();
+                //    if(Inserted)
+                //    {
+                //        MethodsUsed.Add(SolveMethod.XYWing);
+                //    }
+                //    if(Inserted && disp)
+                //    {
+                //        Debug.WriteLine(SolveMethod.XYWing);
+                //        //Console.WriteLine(SolveMethod.XYWing);
+                //        //board.ColourBoardDisplay();
+                //    }
+                //}
+                //Console.ReadLine();
             }
             while(Inserted);
             return board.VerifyBoard();

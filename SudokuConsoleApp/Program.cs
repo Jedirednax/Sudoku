@@ -1,4 +1,5 @@
-﻿using SudokuBoardLibrary;
+﻿using System.Diagnostics;
+using SudokuBoardLibrary;
 namespace SudokuConsoleApp
 {
     internal class Program
@@ -41,11 +42,11 @@ namespace SudokuConsoleApp
             InBoard = BoardTypes.XYWingBlockCol;
 
             bool a = true;
-            //a = false;
+            a = false;
             Generator generator = new Generator();
             //var board = generator.GenerateBoard();
             Board board;
-            for(int i = 0; i < 1; i++)
+            for(int i = 0; i < 10; i++)
             {
                 Console.WriteLine("Started");
                 if(a && InBoard != null)
@@ -54,7 +55,7 @@ namespace SudokuConsoleApp
                 }
                 else
                 {
-                    board = generator.SetBoard(30);
+                    board = generator.SetBoard(20);
                 }
 
                 Solver solver = new Solver(board);
@@ -72,10 +73,21 @@ namespace SudokuConsoleApp
                 //            solver.OldSolverLogicSeq();
                 board.ColourBoardDisplay();
                 //Console.WriteLine(board.ToArray());
-                foreach(string method in solver.MethodsUsed)
-                {
-                    Console.WriteLine(method);
-                }
+                DisplayResults(solver.MethodsUsed);
+            }
+        }
+        public static void DisplayResults(List<SolveMethod> methods)
+        {
+            Console.WriteLine("=== Solve Methods Used ===");
+            Debug.WriteLine("=== Solve Methods Used ===");
+
+            IOrderedEnumerable<IGrouping<SolveMethod, SolveMethod>> grouped = methods.GroupBy(m => m).OrderBy(g => g.Key);
+
+            foreach(IGrouping<SolveMethod, SolveMethod>? group in grouped)
+            {
+                string line = $"{group.Key}: {group.Count()}";
+                Console.WriteLine(line);
+                Debug.WriteLine(line);
             }
         }
     }

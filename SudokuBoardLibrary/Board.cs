@@ -308,16 +308,16 @@ namespace SudokuBoardLibrary
         /// <returns> Return if the cells values was set. </returns>
         public bool SafeInsert(int inRow, int inCol, List<int>? cellPValue)
         {
-            if(cellPValue == null || cellPValue.Count > 1)
-            {
-                return false;
-            }
-            int cellValue = cellPValue[0];
             if(inRow < 0 || inRow >= BoardSize ||
                inCol < 0 || inCol >= BoardSize)
             {
                 throw new ArgumentException("Values out side of board range");
             }
+            if(cellPValue == null || cellPValue.Count < 1)
+            {
+                return false;
+            }
+            int cellValue = cellPValue[0];
             if(GetCell(inRow, inCol).IsPopulated)
             {
                 return false;

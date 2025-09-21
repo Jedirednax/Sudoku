@@ -63,6 +63,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\SudokuBoardLibrary\SudokuBoardLibrary.csproj" />
 	</ItemGroup>
 
 </Project>
