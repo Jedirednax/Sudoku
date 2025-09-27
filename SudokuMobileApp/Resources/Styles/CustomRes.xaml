@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SudokuMobileApp">
+
+    <Style TargetType="Button" x:Key="CellButton">
+        <Setter Property="FontFamily"       Value="OpenSansRegular"/>
+        <Setter Property="FontSize"         Value="20"/>
+        <Setter Property="BorderWidth"      Value="2"/>
+        <Setter Property="CornerRadius"     Value="8"/>
+        <Setter Property="Padding"          Value="5,5"/>
+        <Setter Property="WidthRequest"     Value="400"/>
+        <Setter Property="HeightRequest"    Value="400"/>
+        <Setter Property="MinimumHeightRequest" Value="150"/>
+        <Setter Property="MinimumWidthRequest"  Value="150"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+        </Setter>
+    </Style>
+
+    <Style TargetType="Button" x:Key="HighlightedCell">
+        <Setter Property="TextColor"        Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />
+        <Setter Property="Background"  Value="{AppThemeBinding Light={StaticResource HighlightedCellBackGround}, Dark={StaticResource HighlightedCellBackGround}}" />
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
+    <Style TargetType="Button" x:Key="GivenCell" >
+        <Setter Property="TextColor"        Value="{AppThemeBinding Light={StaticResource GivenCellBackGroundText}, Dark={StaticResource GivenCellBackGroundText}}" />
+        <Setter Property="Background"  Value="{AppThemeBinding Light={StaticResource GivenCellBackGround}, Dark={StaticResource GivenCellBackGround}}" />
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
+    <Style TargetType="Button" x:Key="PopCell" >
+        <Setter Property="TextColor"        Value="{AppThemeBinding Light={StaticResource PopCellBackGroundText}, Dark={StaticResource PopCellBackGroundText}}" />
+        <Setter Property="Background"  Value="{AppThemeBinding Light={StaticResource PopBackGround}, Dark={StaticResource PopBackGround}}" />
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
+    <Style TargetType="Button" x:Key="OpenCell">
+        <Setter Property="TextColor"        Value="{AppThemeBinding Light={StaticResource OpenCellBackGroundText}, Dark={StaticResource OpenCellBackGroundText}}" />
+        <Setter Property="Background"  Value="{AppThemeBinding Light={StaticResource OpenCellBackGround}, Dark={StaticResource OpenCellBackGround}}" />
+        <Setter Property="FontSize" Value="10"/>
+    </Style>
+<!---->
+
+    <Style TargetType="Label" x:Key="CellLabelStyle">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
+    </Style>
+    
+    <Style TargetType="Frame" x:Key="HighlightedCellStyle">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource HighlightedCellBackGround}, Dark={StaticResource HighlightedCellBackGround}}" />
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="CornerRadius" Value="50"/>
+    </Style>
+
+    <Style TargetType="Frame" x:Key="GivenCellStyle">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource GivenCellBackGround}, Dark={StaticResource GivenCellBackGround}}" />
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="CornerRadius" Value="50"/>
+    </Style>
+
+    <Style TargetType="Frame" x:Key="PopulatedCellStyle">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PopBackGround}, Dark={StaticResource PopBackGround}}" />
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="CornerRadius" Value="50"/>
+    </Style>
+
+    <Style TargetType="Frame" x:Key="OpenCellStyle">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource OpenCellBackGround}, Dark={StaticResource OpenCellBackGround}}" />
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="CornerRadius" Value="50"/>
+    </Style>
+
+    <Style TargetType="Frame" x:Key="FrameBaseStyle">
+        <!--<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource OpenCellBackGround}, Dark={StaticResource OpenCellBackGround}}" />-->
+        <Setter Property="CornerRadius" Value="50"/>
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="MinimumHeightRequest" Value="100"/>
+        <Setter Property="MinimumWidthRequest"  Value="100"/>
+    </Style>
+
+
+
+
+    <DataTemplate x:Key="OpenCellTemplate">
+        <Frame Style="{StaticResource FrameBaseStyle}"
+               Background="{StaticResource OpenCellBackGround}">
+            <Grid
+                 
+                   Padding="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                    <RowDefinition Height="20*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="20*" />
+                    <ColumnDefinition Width="20*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Row="0" Grid.Column="0" Text="{Binding possable[0]}" Style="{StaticResource possibilities}" />
+                <Label Grid.Row="0" Grid.Column="1" Text="{Binding possable[1]}" Style="{StaticResource possibilities}" />
+                <Label Grid.Row="0" Grid.Column="2" Text="{Binding possable[2]}" Style="{StaticResource possibilities}" />
+                <Label Grid.Row="1" Grid.Column="0" Text="{Binding possable[3]}" Style="{StaticResource possibilities}" />
+                <Label Grid.Row="1" Grid.Column="1" Text="{Binding possable[4]}" Style="{StaticResource possibilities}" />
+                <Label Grid.Row="1" Grid.Column="2" Text="{Binding possable[5]}" Style="{StaticResource possibilities}" />
+                <Label Grid.Row="2" Grid.Column="0" Text="{Binding possable[6]}" Style="{StaticResource possibilities}" />
+                <Label Grid.Row="2" Grid.Column="1" Text="{Binding possable[7]}" Style="{StaticResource possibilities}" />
+                <Label Grid.Row="2" Grid.Column="2" Text="{Binding possable[8]}" Style="{StaticResource possibilities}" />
+            </Grid>
+        </Frame>
+    </DataTemplate>
+
+    <DataTemplate x:Key="GivenCellTemplate">
+        <Frame Style="{StaticResource FrameBaseStyle}"
+               Background="{StaticResource GivenCellBackGround}">
+            <Label Text="{Binding CellValue}"
+               Style="{StaticResource CellLabelStyle}"
+               TextColor="{AppThemeBinding Light={StaticResource GivenCellBackGroundText}, Dark={StaticResource GivenCellBackGroundText}}" />
+        </Frame>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PopulatedCellTemplate">
+        <Frame Style="{StaticResource FrameBaseStyle}"
+               Background="{StaticResource PopBackGround}">
+            <Label Text="{Binding CellValue}"
+               Style="{StaticResource CellLabelStyle}"
+               TextColor="{AppThemeBinding Light={StaticResource PopCellBackGroundText}, Dark={StaticResource PopCellBackGroundText}}" />
+        </Frame>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="HighlightedCellTemplate">
+        <Frame Style="{StaticResource FrameBaseStyle}"
+               Background="{StaticResource HighlightedCellBackGround}">
+            <Label Text="{Binding CellValue}"
+               Style="{StaticResource CellLabelStyle}"
+               TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />
+        </Frame>
+    </DataTemplate>
+
+    <local:CellTemplateSelector x:Key="cellDataTemplateSelector"
+        OpenCellTemplate       = "{StaticResource OpenCellTemplate}"
+        HighlightedCellTemplate= "{StaticResource HighlightedCellTemplate}"
+        PopulatedCellTemplate  = "{StaticResource PopulatedCellTemplate}"
+        GivenCellTemplate      = "{StaticResource GivenCellTemplate}" />
+    
+    <local:InverseBoolConverter x:Key="InverseBoolConverter" />
+    <local:ContainsValueToTextConverter x:Key="ContainsValueToTextConverter"/>
+    
+    <!--<local:BoolToFontAttributeConverter x:Key="BoolToFontAttributeConverter" />-->
+
+    <DataTemplate x:Key="SudokuCellTemplate">
+        <Frame 
+            BorderColor="Gray" 
+            BackgroundColor="Transparent" 
+            CornerRadius="15"
+            MinimumHeightRequest="80"  
+            MinimumWidthRequest ="80"
+            >
+            <!--<Frame.GestureRecognizers>
+                <TapGestureRecognizer>
+                    
+                </TapGestureRecognizer>
+            </Frame.GestureRecognizers>-->
+            <Grid>
+                <Label 
+                    Text="{Binding CellValue}" 
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    VerticalOptions=  "Center"
+                    IsVisible="{Binding isPopulated}"
+                    BackgroundColor="Transparent"/>
+               
+                    <Grid IsVisible="{Binding isPopulated, Converter={StaticResource InverseBoolConverter}}"
+                        VerticalOptions   = "CenterAndExpand"
+                        HorizontalOptions = "CenterAndExpand"
+                        >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+
+                       
+                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding possable[0]}" Style="{StaticResource possibilities}"/>
+                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding possable[1]}" Style="{StaticResource possibilities}"/>
+                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding possable[2]}" Style="{StaticResource possibilities}"/>
+
+                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding possable[3]}" Style="{StaticResource possibilities}"/>
+                    <Label Grid.Row="1" Grid.Column="1" Text="{Binding possable[4]}" Style="{StaticResource possibilities}"/>
+                    <Label Grid.Row="1" Grid.Column="2" Text="{Binding possable[5]}" Style="{StaticResource possibilities}"/>
+
+                    <Label Grid.Row="2" Grid.Column="0" Text="{Binding possable[6]}" Style="{StaticResource possibilities}"/>
+                    <Label Grid.Row="2" Grid.Column="1" Text="{Binding possable[7]}" Style="{StaticResource possibilities}"/>
+                    <Label Grid.Row="2" Grid.Column="2" Text="{Binding possable[8]}" Style="{StaticResource possibilities}"/>
+                </Grid>
+            </Grid>
+        </Frame>
+    </DataTemplate>
+
+</ResourceDictionary>
+
+
+<!--<CollectionView 
+                    ItemsSource="{Binding possable}"
+                    ItemsLayout="VerticalGrid, 3"
+                    IsVisible="{Binding isPopulated, Converter={StaticResource InverseBoolConverter}}"
+                    SelectionMode="None"
+                    Margin="2"
+                    MinimumHeightRequest="30"
+                    MinimumWidthRequest="30"
+                    BackgroundColor="Transparent">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Label 
+                            Text="{Binding}" 
+                            FontSize="12" 
+                            TextColor="Yellow"
+                                    MaximumHeightRequest="20"
+                                    MaximumWidthRequest="20"
+                                    MinimumHeightRequest="10"
+                                    MinimumWidthRequest="10"
+                                    />
+                            -->
+<!--HorizontalOptions="Center" 
+                            VerticalOptions="Center"-->
+<!--
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>-->
+
+<!-- 1 to 9 in fixed positions -->
+<!--
+                        <Label Grid.Row="0" Grid.Column="0"
+                       Text="{Binding possable, Converter={StaticResource ContainsValueToTextConverter}, ConverterParameter=1}"
+                       FontSize="12" TextColor="Yellow"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Grid.Row="0" Grid.Column="1"
+                       Text="{Binding possable, Converter={StaticResource ContainsValueToTextConverter}, ConverterParameter=2}"
+                       FontSize="12" TextColor="Yellow"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Grid.Row="0" Grid.Column="2"
+                       Text="{Binding possable, Converter={StaticResource ContainsValueToTextConverter}, ConverterParameter=3}"
+                       FontSize="12" TextColor="Yellow"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                        <Label Grid.Row="1" Grid.Column="0"
+                       Text="{Binding possable, Converter={StaticResource ContainsValueToTextConverter}, ConverterParameter=4}"
+                       FontSize="12" TextColor="Yellow"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Grid.Row="1" Grid.Column="1"
+                       Text="{Binding possable, Converter={StaticResource ContainsValueToTextConverter}, ConverterParameter=5}"
+                       FontSize="12" TextColor="Yellow"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Grid.Row="1" Grid.Column="2"
+                       Text="{Binding possable, Converter={StaticResource ContainsValueToTextConverter}, ConverterParameter=6}"
+                       FontSize="12" TextColor="Yellow"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+
+                        <Label Grid.Row="2" Grid.Column="0"
+                       Text="{Binding possable, Converter={StaticResource ContainsValueToTextConverter}, ConverterParameter=7}"
+                       FontSize="12" TextColor="Yellow"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Grid.Row="2" Grid.Column="1"
+                       Text="{Binding possable, Converter={StaticResource ContainsValueToTextConverter}, ConverterParameter=8}"
+                       FontSize="12" TextColor="Yellow"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                        <Label Grid.Row="2" Grid.Column="2"
+                       Text="{Binding possable, Converter={StaticResource ContainsValueToTextConverter}, ConverterParameter=9}"
+                       FontSize="12" TextColor="Yellow"
+                       HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                    </Grid>-->

@@ -66,4 +66,10 @@
 	  <ProjectReference Include="..\SudokuBoardLibrary\SudokuBoardLibrary.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Resources\Styles\CustomRes.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>
