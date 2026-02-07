@@ -9,81 +9,81 @@
         <Setter Property="BorderWidth"      Value="2"/>
         <Setter Property="CornerRadius"     Value="8"/>
         <Setter Property="Padding"          Value="5,5"/>
-        <Setter Property="WidthRequest"     Value="400"/>
-        <Setter Property="HeightRequest"    Value="400"/>
+        <!--<Setter Property="WidthRequest"     Value="500"/>
+        <Setter Property="HeightRequest"    Value="500"/>
         <Setter Property="MinimumHeightRequest" Value="150"/>
-        <Setter Property="MinimumWidthRequest"  Value="150"/>
+        <Setter Property="MinimumWidthRequest"  Value="150"/>-->
         <Setter Property="VisualStateManager.VisualStateGroups">
         </Setter>
     </Style>
 
     <Style TargetType="Button" x:Key="HighlightedCell">
         <Setter Property="TextColor"        Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />
-        <Setter Property="Background"  Value="{AppThemeBinding Light={StaticResource HighlightedCellBackGround}, Dark={StaticResource HighlightedCellBackGround}}" />
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="Background"       Value="{AppThemeBinding Light={StaticResource HighlightedCellBackGround}, Dark={StaticResource HighlightedCellBackGround}}" />
+        <Setter Property="FontSize"         Value="20"/>
+        <Setter Property="FontAttributes"   Value="Bold"/>
     </Style>
 
     <Style TargetType="Button" x:Key="GivenCell" >
         <Setter Property="TextColor"        Value="{AppThemeBinding Light={StaticResource GivenCellBackGroundText}, Dark={StaticResource GivenCellBackGroundText}}" />
-        <Setter Property="Background"  Value="{AppThemeBinding Light={StaticResource GivenCellBackGround}, Dark={StaticResource GivenCellBackGround}}" />
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="Background"       Value="{AppThemeBinding Light={StaticResource GivenCellBackGround}, Dark={StaticResource GivenCellBackGround}}" />
+        <Setter Property="FontSize"         Value="20"/>
+        <Setter Property="FontAttributes"   Value="Bold"/>
     </Style>
 
     <Style TargetType="Button" x:Key="PopCell" >
         <Setter Property="TextColor"        Value="{AppThemeBinding Light={StaticResource PopCellBackGroundText}, Dark={StaticResource PopCellBackGroundText}}" />
-        <Setter Property="Background"  Value="{AppThemeBinding Light={StaticResource PopBackGround}, Dark={StaticResource PopBackGround}}" />
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="Background"       Value="{AppThemeBinding Light={StaticResource PopBackGround}, Dark={StaticResource PopBackGround}}" />
+        <Setter Property="FontSize"         Value="20"/>
+        <Setter Property="FontAttributes"   Value="Bold"/>
     </Style>
 
     <Style TargetType="Button" x:Key="OpenCell">
         <Setter Property="TextColor"        Value="{AppThemeBinding Light={StaticResource OpenCellBackGroundText}, Dark={StaticResource OpenCellBackGroundText}}" />
-        <Setter Property="Background"  Value="{AppThemeBinding Light={StaticResource OpenCellBackGround}, Dark={StaticResource OpenCellBackGround}}" />
-        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="Background"       Value="{AppThemeBinding Light={StaticResource OpenCellBackGround}, Dark={StaticResource OpenCellBackGround}}" />
+        <Setter Property="FontSize"         Value="10"/>
     </Style>
 <!---->
 
     <Style TargetType="Label" x:Key="CellLabelStyle">
-        <Setter Property="FontSize" Value="20" />
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalOptions" Value="Center" />
-        <Setter Property="HorizontalTextAlignment" Value="Center" />
-        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="FontSize"             Value="20" />
+        <Setter Property="FontAttributes"       Value="Bold" />
+        <Setter Property="HorizontalOptions"    Value="Center" />
+        <Setter Property="VerticalOptions"      Value="Center" />
+        <Setter Property="HorizontalTextAlignment"  Value="Center" />
+        <Setter Property="VerticalTextAlignment"    Value="Center" />
     </Style>
     
     <Style TargetType="Frame" x:Key="HighlightedCellStyle">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource HighlightedCellBackGround}, Dark={StaticResource HighlightedCellBackGround}}" />
-        <Setter Property="Padding" Value="2"/>
-        <Setter Property="CornerRadius" Value="50"/>
+        <Setter Property="BackgroundColor"  Value="{AppThemeBinding Light={StaticResource HighlightedCellBackGround}, Dark={StaticResource HighlightedCellBackGround}}" />
+        <Setter Property="Padding"          Value="2"/>
+        <Setter Property="CornerRadius"     Value="50"/>
     </Style>
 
     <Style TargetType="Frame" x:Key="GivenCellStyle">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource GivenCellBackGround}, Dark={StaticResource GivenCellBackGround}}" />
-        <Setter Property="Padding" Value="2"/>
-        <Setter Property="CornerRadius" Value="50"/>
+        <Setter Property="BackgroundColor"  Value="{AppThemeBinding Light={StaticResource GivenCellBackGround}, Dark={StaticResource GivenCellBackGround}}" />
+        <Setter Property="Padding"          Value="2"/>
+        <Setter Property="CornerRadius"     Value="50"/>
     </Style>
 
     <Style TargetType="Frame" x:Key="PopulatedCellStyle">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PopBackGround}, Dark={StaticResource PopBackGround}}" />
-        <Setter Property="Padding" Value="2"/>
-        <Setter Property="CornerRadius" Value="50"/>
+        <Setter Property="BackgroundColor"  Value="{AppThemeBinding Light={StaticResource PopBackGround}, Dark={StaticResource PopBackGround}}" />
+        <Setter Property="Padding"          Value="2"/>
+        <Setter Property="CornerRadius"     Value="50"/>
     </Style>
 
     <Style TargetType="Frame" x:Key="OpenCellStyle">
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource OpenCellBackGround}, Dark={StaticResource OpenCellBackGround}}" />
-        <Setter Property="Padding" Value="2"/>
-        <Setter Property="CornerRadius" Value="50"/>
+        <Setter Property="BackgroundColor"  Value="{AppThemeBinding Light={StaticResource OpenCellBackGround}, Dark={StaticResource OpenCellBackGround}}" />
+        <Setter Property="Padding"          Value="2"/>
+        <Setter Property="CornerRadius"     Value="50"/>
     </Style>
 
     <Style TargetType="Frame" x:Key="FrameBaseStyle">
         <!--<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource OpenCellBackGround}, Dark={StaticResource OpenCellBackGround}}" />-->
-        <Setter Property="CornerRadius" Value="50"/>
-        <Setter Property="Padding" Value="2"/>
-        <Setter Property="MinimumHeightRequest" Value="100"/>
-        <Setter Property="MinimumWidthRequest"  Value="100"/>
+        <Setter Property="CornerRadius"     Value="50"/>
+        <Setter Property="Padding"          Value="2"/>
+        <!--<Setter Property="MinimumHeightRequest" Value="100"/>
+        <Setter Property="MinimumWidthRequest"  Value="100"/>-->
     </Style>
 
 
@@ -162,8 +162,8 @@
             BorderColor="Gray" 
             BackgroundColor="Transparent" 
             CornerRadius="15"
-            MinimumHeightRequest="80"  
-            MinimumWidthRequest ="80"
+            MinimumHeightRequest="60"  
+            MinimumWidthRequest ="60"
             >
             <!--<Frame.GestureRecognizers>
                 <TapGestureRecognizer>
@@ -184,14 +184,14 @@
                         HorizontalOptions = "CenterAndExpand"
                         >
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="30" />
+                            <RowDefinition Height="4*" />
+                            <RowDefinition Height="4*" />
+                            <RowDefinition Height="4*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="30" />
-                            <ColumnDefinition Width="30" />
-                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="4*" />
+                            <ColumnDefinition Width="4*" />
                         </Grid.ColumnDefinitions>
 
                        

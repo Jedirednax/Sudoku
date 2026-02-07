@@ -1,9 +1,11 @@
-﻿using System.Collections.ObjectModel;
+﻿using SudokuBoardLibrary;
+using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using SudokuBoardLibrary;
+using WinRT;
 namespace SudokuMobileApp
 {
     public class CellViewModel : INotifyPropertyChanged
@@ -104,7 +106,7 @@ namespace SudokuMobileApp
                 cells.Add(new CellViewModel(item));
             }
             //testCol
-            testCol.ItemsSource = cells;
+            //testCol.ItemsSource = cells;
 
             inValue = "0";
         }
@@ -137,6 +139,9 @@ namespace SudokuMobileApp
             {
                 btnSender.Text = " ";
                 board.Attempt(Convert.ToInt32(x), Convert.ToInt32(y), 0);
+
+
+
                 Resources.TryGetValue("HighlightedCell", out object? high);
                 btnSender.Style = (Style)high;
             }
@@ -153,6 +158,8 @@ namespace SudokuMobileApp
                         btnSender.Text = inValue;
                         App.Current.Resources.TryGetValue("HighlightedCell", out object? high);
                         btnSender.Style = (Style)high;
+                        UpdateProps(btnSender);
+
                     }
                 }
                 if(board.VerifyBoard())
@@ -165,6 +172,105 @@ namespace SudokuMobileApp
                 }
             }
         }
+
+        private void UpdateProps(object sender)
+        {
+            Button? btnSender = sender as Button;
+            string pos = btnSender.AutomationId;
+
+            string x = pos.Split(':')[0];
+            string y = pos.Split(':')[1];
+            string b = pos.Split(':')[2];
+
+            foreach(var cellItem in views.Where(ro => ro.AutomationId.Split(':')[0] == x))
+            {
+
+
+                int line = 0;
+                //if(cellItem)
+                //{
+                //}
+                var cb =cellItem as Button;
+
+                if(cb.Text.Length > 1)
+                {
+                    string pops = "";
+                    foreach(int p in board.GetCell(Convert.ToInt32(cb.AutomationId.Split(':')[0]),
+                        Convert.ToInt32(cb.AutomationId.Split(':')[1])).CellPossible)
+                    {
+                        line++;
+                        pops += p.ToString() + " ";
+                        if(line % 3 == 0)
+                        {
+                            pops += "\n";
+                        }
+                    }
+                    cb.Text = pops;
+                    Debug.WriteLine(cb.Text);
+                    Debug.WriteLine("-------");
+                }
+            }
+
+
+            foreach(var cellItem in views.Where(ro => ro.AutomationId.Split(':')[1] == y))
+            {
+
+
+                int line = 0;
+                //if(cellItem)
+                //{
+                //}
+                var cb =cellItem as Button;
+
+                if(cb.Text.Length > 1)
+                {
+                    string pops = "";
+                    foreach(int p in board.GetCell(Convert.ToInt32(cb.AutomationId.Split(':')[0]),
+                        Convert.ToInt32(cb.AutomationId.Split(':')[1])).CellPossible)
+                    {
+                        line++;
+                        pops += p.ToString() + " ";
+                        if(line % 3 == 0)
+                        {
+                            pops += "\n";
+                        }
+                    }
+                    cb.Text = pops;
+                    Debug.WriteLine(cb.Text);
+                    Debug.WriteLine("-------");
+                }
+            }
+
+            foreach(var cellItem in views.Where(ro => ro.AutomationId.Split(':')[2] == b))
+            {
+
+
+                int line = 0;
+                //if(cellItem)
+                //{
+                //}
+                var cb =cellItem as Button;
+
+                if(cb.Text.Length > 1)
+                {
+                    string pops = "";
+                    foreach(int p in board.GetCell(Convert.ToInt32(cb.AutomationId.Split(':')[0]),
+                        Convert.ToInt32(cb.AutomationId.Split(':')[1])).CellPossible)
+                    {
+                        line++;
+                        pops += p.ToString() + " ";
+                        if(line % 3 == 0)
+                        {
+                            pops += "\n";
+                        }
+                    }
+                    cb.Text = pops;
+                    Debug.WriteLine(cb.Text);
+                    Debug.WriteLine("-------");
+                }
+            }
+        }
+
 
         private void HighLight(string con)
         {
@@ -308,7 +414,7 @@ namespace SudokuMobileApp
 
             views.IsVisible = true;
 
-            int wd =40;
+            int wd =60;
             for(int row = 0; row < board.Grid.GetLength(0); row++)
             {
                 for(int col = 0; col < board.Grid.GetLength(1); col++)
@@ -372,7 +478,7 @@ namespace SudokuMobileApp
                         //Grid miniGrid = PropsGrid(cell.CellPossible);
 
                     }
-                    cellButton.AutomationId = $"{row}:{col}";// new SudukoBoardLibary.Cell(row, col, cell);
+                    cellButton.AutomationId = $"{row}:{col}:{cell.CellBlock}";// new SudukoBoardLibary.Cell(row, col, cell);
                     cellButton.Clicked += (sender, e) => OnClicked(sender, e);
                     cellButton.IsEnabled = true;
                     Grid.SetRow(cellButton, row);

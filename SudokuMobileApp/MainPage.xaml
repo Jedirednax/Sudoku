@@ -133,12 +133,12 @@
                     </RadioButton>
                 </HorizontalStackLayout>
             </FlexLayout>
-            <CollectionView x:Name="testCol" Grid.Row="3" Grid.Column="1"
+            <!--<CollectionView x:Name="testCol" Grid.Row="3" Grid.Column="1"
                 ItemsLayout="VerticalGrid, 9"
                 ItemsSource="{Binding cells}"
                 ItemTemplate="{StaticResource  cellDataTemplateSelector }" 
                 WidthRequest="900" HeightRequest="900"
-                            Background="#333333"/>
+                            Background="#333333"/>-->
                 <!--ItemSizingStrategy="MeasureAllItems"-->
         </VerticalStackLayout>
     </ScrollView>
@@ -162,8 +162,8 @@
                     StrokeThickness="2"
                     StrokeShape="RoundRectangle 10"
                     BackgroundColor="#F3F2F1"
-                    HeightRequest="40"
-                    WidthRequest="40"
+                    HeightRequest="50"
+                    WidthRequest="50"
                     HorizontalOptions="Center"
                     VerticalOptions="Center">
                 <VisualStateManager.VisualStateGroups>
