@@ -14,8 +14,7 @@ namespace SudokuMobileApp
         public Button last;
         public static Board board;
         Generator BoardGenerator = new Generator();
-        //public static List<SudokuBoardLibrary.Cell> cells { get; set; } = [];
-
+        
         public ObservableCollection<CellViewModel> cells { get; set; } = [];
 
         public static bool NumberSelected = false;
@@ -43,28 +42,9 @@ namespace SudokuMobileApp
             {
                 cells.Add(new CellViewModel(item));
             }
-            //testCol
-            //testCol.ItemsSource = cells;
-
+            
             inValue = "0";
         }
-
-        //void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    CollectionView cv = (CollectionView)sender;
-        //    if(cv.SelectedItem == null)
-        //    {
-        //
-        //        return;
-        //    }
-        //}
-        //void UpdateSelectionData(IEnumerable<object> previousSelectedItems, IEnumerable<object> currentSelectedItems)
-        //{
-        //          var previous = ToList(previousSelectedItems);
-        //          var current = ToList(currentSelectedItems);
-        //          previousSelectedItemLabel.Text = string.IsNullOrWhiteSpace(previous) ? "[none]" : previous;
-        //          currentSelectedItemLabel.Text = string.IsNullOrWhiteSpace(current) ? "[none]" : current;
-        //}
 
         private void OnClicked(object sender, EventArgs e)
         {
@@ -298,21 +278,8 @@ namespace SudokuMobileApp
                                 Debug.WriteLine("OpenCellBackGround");
                             }
                         }
-                        //string pops = "";
-                        //foreach(int p in cell.CellPossible)
-                        //{
-                        //    line++;
-                        //    pops += p.ToString() + " ";
-                        //    if(line % 3 == 0)
-                        //    {
-                        //        pops += "\n";
-                        //    }
-                        //}
-                        //cellButton.Text = pops;
-                        //Grid miniGrid = PropsGrid(cell.CellPossible);
-
                     }
-                    cellButton.AutomationId = $"{row}:{col}";// new SudukoBoardLibary.Cell(row, col, cell);
+                    cellButton.AutomationId = $"{row}:{col}";
                     cellButton.Clicked += (sender, e) => OnClicked(sender, e);
                     cellButton.IsEnabled = true;
                     Grid.SetRow(cellButton, row);
@@ -322,77 +289,6 @@ namespace SudokuMobileApp
                 }
             }
         }
-        //public Grid PropsGrid(List<int> props)
-        //{
-        //    Grid grdProps = [];
-
-        //    grdProps.AddColumnDefinition(new ColumnDefinition());
-        //    grdProps.AddColumnDefinition(new ColumnDefinition());
-        //    grdProps.AddColumnDefinition(new ColumnDefinition());
-
-        //    grdProps.AddRowDefinition(new RowDefinition());
-        //    grdProps.AddRowDefinition(new RowDefinition());
-        //    grdProps.AddRowDefinition(new RowDefinition());
-
-        //    foreach(int i in props)
-        //    {
-        //        Label newCon = new Label
-        //        {
-        //            Text = i.ToString()
-        //        };
-        //        if(i == 0)
-        //        {
-        //            continue;
-        //        }
-        //        else if(i == 1)
-        //        {
-        //            Grid.SetRow(newCon, 0);
-        //            Grid.SetColumn(newCon, 0);
-        //        }
-        //        else if(i == 2)
-        //        {
-        //            Grid.SetRow(newCon, 0);
-        //            Grid.SetColumn(newCon, 1);
-        //        }
-        //        else if(i == 3)
-        //        {
-        //            Grid.SetRow(newCon, 0);
-        //            Grid.SetColumn(newCon, 2);
-        //        }
-        //        else if(i == 4)
-        //        {
-        //            Grid.SetRow(newCon, 1);
-        //            Grid.SetColumn(newCon, 0);
-        //        }
-        //        else if(i == 5)
-        //        {
-        //            Grid.SetRow(newCon, 1);
-        //            Grid.SetColumn(newCon, 1);
-        //        }
-        //        else if(i == 6)
-        //        {
-        //            Grid.SetRow(newCon, 1);
-        //            Grid.SetColumn(newCon, 2);
-        //        }
-        //        else if(i == 7)
-        //        {
-        //            Grid.SetRow(newCon, 2);
-        //            Grid.SetColumn(newCon, 0);
-        //        }
-        //        else if(i == 8)
-        //        {
-        //            Grid.SetRow(newCon, 2);
-        //            Grid.SetColumn(newCon, 1);
-        //        }
-        //        else if(i == 9)
-        //        {
-        //            Grid.SetRow(newCon, 2);
-        //            Grid.SetColumn(newCon, 2);
-        //        }
-        //        grdProps.AddLogicalChild(newCon);
-        //    }
-        //    return grdProps;
-        //}
     }
 
     public class CellTemplateSelector : DataTemplateSelector
