@@ -358,17 +358,17 @@ namespace SudokuMobileApp
                                 Debug.WriteLine("OpenCellBackGround");
                             }
                         }
-                        string pops = "";
-                        foreach(int p in cell.CellPossible)
-                        {
-                            line++;
-                            pops += p.ToString() + " ";
-                            if(line % 3 == 0)
-                            {
-                                pops += "\n";
-                            }
-                        }
-                        cellButton.Text = pops;
+                        //string pops = "";
+                        //foreach(int p in cell.CellPossible)
+                        //{
+                        //    line++;
+                        //    pops += p.ToString() + " ";
+                        //    if(line % 3 == 0)
+                        //    {
+                        //        pops += "\n";
+                        //    }
+                        //}
+                        //cellButton.Text = pops;
                         //Grid miniGrid = PropsGrid(cell.CellPossible);
 
                     }
@@ -382,77 +382,77 @@ namespace SudokuMobileApp
                 }
             }
         }
-        public Grid PropsGrid(List<int> props)
-        {
-            Grid grdProps = [];
+        //public Grid PropsGrid(List<int> props)
+        //{
+        //    Grid grdProps = [];
 
-            grdProps.AddColumnDefinition(new ColumnDefinition());
-            grdProps.AddColumnDefinition(new ColumnDefinition());
-            grdProps.AddColumnDefinition(new ColumnDefinition());
+        //    grdProps.AddColumnDefinition(new ColumnDefinition());
+        //    grdProps.AddColumnDefinition(new ColumnDefinition());
+        //    grdProps.AddColumnDefinition(new ColumnDefinition());
 
-            grdProps.AddRowDefinition(new RowDefinition());
-            grdProps.AddRowDefinition(new RowDefinition());
-            grdProps.AddRowDefinition(new RowDefinition());
+        //    grdProps.AddRowDefinition(new RowDefinition());
+        //    grdProps.AddRowDefinition(new RowDefinition());
+        //    grdProps.AddRowDefinition(new RowDefinition());
 
-            foreach(int i in props)
-            {
-                Label newCon = new Label
-                {
-                    Text = i.ToString()
-                };
-                if(i == 0)
-                {
-                    continue;
-                }
-                else if(i == 1)
-                {
-                    Grid.SetRow(newCon, 0);
-                    Grid.SetColumn(newCon, 0);
-                }
-                else if(i == 2)
-                {
-                    Grid.SetRow(newCon, 0);
-                    Grid.SetColumn(newCon, 1);
-                }
-                else if(i == 3)
-                {
-                    Grid.SetRow(newCon, 0);
-                    Grid.SetColumn(newCon, 2);
-                }
-                else if(i == 4)
-                {
-                    Grid.SetRow(newCon, 1);
-                    Grid.SetColumn(newCon, 0);
-                }
-                else if(i == 5)
-                {
-                    Grid.SetRow(newCon, 1);
-                    Grid.SetColumn(newCon, 1);
-                }
-                else if(i == 6)
-                {
-                    Grid.SetRow(newCon, 1);
-                    Grid.SetColumn(newCon, 2);
-                }
-                else if(i == 7)
-                {
-                    Grid.SetRow(newCon, 2);
-                    Grid.SetColumn(newCon, 0);
-                }
-                else if(i == 8)
-                {
-                    Grid.SetRow(newCon, 2);
-                    Grid.SetColumn(newCon, 1);
-                }
-                else if(i == 9)
-                {
-                    Grid.SetRow(newCon, 2);
-                    Grid.SetColumn(newCon, 2);
-                }
-                grdProps.AddLogicalChild(newCon);
-            }
-            return grdProps;
-        }
+        //    foreach(int i in props)
+        //    {
+        //        Label newCon = new Label
+        //        {
+        //            Text = i.ToString()
+        //        };
+        //        if(i == 0)
+        //        {
+        //            continue;
+        //        }
+        //        else if(i == 1)
+        //        {
+        //            Grid.SetRow(newCon, 0);
+        //            Grid.SetColumn(newCon, 0);
+        //        }
+        //        else if(i == 2)
+        //        {
+        //            Grid.SetRow(newCon, 0);
+        //            Grid.SetColumn(newCon, 1);
+        //        }
+        //        else if(i == 3)
+        //        {
+        //            Grid.SetRow(newCon, 0);
+        //            Grid.SetColumn(newCon, 2);
+        //        }
+        //        else if(i == 4)
+        //        {
+        //            Grid.SetRow(newCon, 1);
+        //            Grid.SetColumn(newCon, 0);
+        //        }
+        //        else if(i == 5)
+        //        {
+        //            Grid.SetRow(newCon, 1);
+        //            Grid.SetColumn(newCon, 1);
+        //        }
+        //        else if(i == 6)
+        //        {
+        //            Grid.SetRow(newCon, 1);
+        //            Grid.SetColumn(newCon, 2);
+        //        }
+        //        else if(i == 7)
+        //        {
+        //            Grid.SetRow(newCon, 2);
+        //            Grid.SetColumn(newCon, 0);
+        //        }
+        //        else if(i == 8)
+        //        {
+        //            Grid.SetRow(newCon, 2);
+        //            Grid.SetColumn(newCon, 1);
+        //        }
+        //        else if(i == 9)
+        //        {
+        //            Grid.SetRow(newCon, 2);
+        //            Grid.SetColumn(newCon, 2);
+        //        }
+        //        grdProps.AddLogicalChild(newCon);
+        //    }
+        //    return grdProps;
+        //}
     }
 
     public class CellTemplateSelector : DataTemplateSelector
