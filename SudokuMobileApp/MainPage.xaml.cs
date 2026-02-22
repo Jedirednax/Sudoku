@@ -6,66 +6,6 @@ using System.Runtime.CompilerServices;
 using SudokuBoardLibrary;
 namespace SudokuMobileApp
 {
-    public class CellViewModel : INotifyPropertyChanged
-    {
-        public SudokuBoardLibrary.Cell _cell { get; set; }
-        public int CellValue { get; set; }
-        public bool isGiven { get; set; }
-        public bool isPopulated { get; set; }
-
-        public List<string> possable { get; set; }
-
-        public CellViewModel(SudokuBoardLibrary.Cell cell)
-        {
-            CellValue = cell.CellValue;
-            isGiven = cell.IsGiven;
-            isPopulated = cell.IsPopulated;
-            possable = [.. cell.CellPossible.OrderBy(p => p).Select(p => p.ToString()).ToList()];
-            _cell = cell;
-        }
-
-        // Notify UI of property change
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string? name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-    }
-
-    public class InverseBoolConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return !(bool)value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class ContainsValueToTextConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            IList<int>? list = value as IList<int>;
-            int target = int.Parse(parameter.ToString());
-
-            if(list != null && list.Contains(target))
-            {
-
-                return target.ToString();
-            }
-
-            return string.Empty;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 
     public partial class MainPage : ContentPage
     {
@@ -483,4 +423,65 @@ namespace SudokuMobileApp
             return OpenCellTemplate;
         }
     }
+    public class CellViewModel : INotifyPropertyChanged
+    {
+        public SudokuBoardLibrary.Cell _cell { get; set; }
+        public int CellValue { get; set; }
+        public bool isGiven { get; set; }
+        public bool isPopulated { get; set; }
+
+        public List<string> possable { get; set; }
+
+        public CellViewModel(SudokuBoardLibrary.Cell cell)
+        {
+            CellValue = cell.CellValue;
+            isGiven = cell.IsGiven;
+            isPopulated = cell.IsPopulated;
+            possable = [.. cell.CellPossible.OrderBy(p => p).Select(p => p.ToString()).ToList()];
+            _cell = cell;
+        }
+
+        // Notify UI of property change
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+    }
+
+    public class InverseBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !(bool)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ContainsValueToTextConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            IList<int>? list = value as IList<int>;
+            int target = int.Parse(parameter.ToString());
+
+            if(list != null && list.Contains(target))
+            {
+
+                return target.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }
