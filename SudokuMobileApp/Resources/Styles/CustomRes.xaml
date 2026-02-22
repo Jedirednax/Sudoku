@@ -17,6 +17,7 @@
         </Setter>
     </Style>
 
+    <!--this is for code set styles-->
     <Style TargetType="Button" x:Key="HighlightedCell">
         <Setter Property="TextColor"        Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource PrimaryDarkText}}" />
         <Setter Property="Background"       Value="{AppThemeBinding Light={StaticResource HighlightedCellBackGround}, Dark={StaticResource HighlightedCellBackGround}}" />

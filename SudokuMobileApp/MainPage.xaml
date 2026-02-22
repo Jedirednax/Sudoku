@@ -30,7 +30,7 @@
             </Grid>
             
             <Line HeightRequest="5"></Line>
-            <Grid x:Name="Co" ColumnSpacing="2" RowSpacing="2" BackgroundColor="Orange" HorizontalOptions="Center">
+            <Grid x:Name="Co" ColumnSpacing="3" RowSpacing="3" BackgroundColor="Orange" HorizontalOptions="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="3*"/>
