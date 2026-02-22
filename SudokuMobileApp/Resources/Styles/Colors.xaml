@@ -6,12 +6,23 @@
 
     <!-- Note: For Android please see also Platforms\Android\Resources\values\colors.xml -->
 
-    <Color x:Key="Primary">Orange</Color>
-    <Color x:Key="PrimaryDark">orange</Color>
-    <Color x:Key="PrimaryDarkText">#242424</Color>
+    <Color x:Key="Primary">#FF8800</Color>
+    <Color x:Key="PrimaryDark">#FF8800</Color>
+    <Color x:Key="PrimaryDarkText">white</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="SecondaryDarkText">#9880e5</Color>
     <Color x:Key="Tertiary">#2B0B98</Color>
+
+    <Color x:Key="GivenCellBackGround">#404040</Color>
+    <Color x:Key="HighlightedCellBackGround">#FF8800</Color>
+    <Color x:Key="OpenCellBackGround">Transparent</Color>
+    <Color x:Key="PopBackGround">Transparent</Color>
+
+    <Color x:Key="GivenCellBackGroundText">White</Color>
+    <Color x:Key="HighlightedCellBackGroundText">White</Color>
+    <Color x:Key="OpenCellBackGroundText">#E1E1E1</Color>
+    <Color x:Key="PopCellBackGroundText">White</Color>
+
 
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>

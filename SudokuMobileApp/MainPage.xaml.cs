@@ -1,62 +1,51 @@
-﻿using SudokuBoardLibrary;
-
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+using SudokuBoardLibrary;
 namespace SudokuMobileApp
 {
-    public class CellDataTemplateSelector : DataTemplateSelector
-    {
-        public DataTemplate GivenCell { get; set; }
-        public DataTemplate OpenCell { get; set; }
 
-        protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
-        {
-            return ((SudokuBoardLibrary.Cell)item).IsGiven ? GivenCell : OpenCell;
-        }
-    }
     public partial class MainPage : ContentPage
     {
         int count = 0;
         public static string inValue = "0";
         public Button last;
         public static Board board;
-        Generator sudukoBoardGenerator = new Generator();
-        public static List<SudokuBoardLibrary.Cell> cells { get; set; } = [];
+        Generator BoardGenerator = new Generator();
+        
+        public ObservableCollection<CellViewModel> cells { get; set; } = [];
 
         public static bool NumberSelected = false;
         public MainPage()
         {
             InitializeComponent();
+            board = BoardGenerator.SetBoard(40);
 
-            views.ColumnSpacing=2;
-            views.RowSpacing=2;
-            views.RowSpacing =3;
+            views.ColumnSpacing = 2;
+            views.RowSpacing = 2;
+            views.RowSpacing = 3;
             views.BackgroundColor = Colors.Transparent;
-            //board.BoardSize = 9;
+            board.BoardSize = 9;
+            foreach(KeyValuePair<string, object> f in Resources)
+            {
+                Debug.WriteLine(f.Key);
+            }
             for(int i = 0; i < 9; i++)
             {
                 views.AddColumnDefinition(new ColumnDefinition());
                 views.AddRowDefinition(new RowDefinition());
             }
             GenrateGame();
-
+            foreach(SudokuBoardLibrary.Cell item in board.Grid)
+            {
+                cells.Add(new CellViewModel(item));
+            }
+            
             inValue = "0";
         }
 
-        //void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    CollectionView cv = (CollectionView)sender;
-        //    if(cv.SelectedItem == null)
-        //    {
-        //
-        //        return;
-        //    }
-        //}
-        //void UpdateSelectionData(IEnumerable<object> previousSelectedItems, IEnumerable<object> currentSelectedItems)
-        //{
-        //          var previous = ToList(previousSelectedItems);
-        //          var current = ToList(currentSelectedItems);
-        //          previousSelectedItemLabel.Text = string.IsNullOrWhiteSpace(previous) ? "[none]" : previous;
-        //          currentSelectedItemLabel.Text = string.IsNullOrWhiteSpace(current) ? "[none]" : current;
-        //}
         private void OnClicked(object sender, EventArgs e)
         {
             Button? btnSender = sender as Button;
@@ -66,34 +55,28 @@ namespace SudokuMobileApp
             string y = pos.Split(':')[1];
             if(btnSender.Text == inValue)
             {
-
                 btnSender.Text = " ";
                 board.Attempt(Convert.ToInt32(x), Convert.ToInt32(y), 0);
-                btnSender.Background = Colors.Transparent;
-                btnSender.TextColor = Colors.Black;
-
+                Resources.TryGetValue("HighlightedCell", out object? high);
+                btnSender.Style = (Style)high;
             }
             else
             {
                 if(board.Attempt(Convert.ToInt32(x), Convert.ToInt32(y), Convert.ToInt32(inValue)))
                 {
-                    if(inValue =="0")
+                    if(inValue == "0")
                     {
                         btnSender.Text = " ";
                     }
                     else
                     {
                         btnSender.Text = inValue;
-                        App.Current.Resources.TryGetValue("HighlightedCellBackGround", out object? colorvalue);
-                        Color highLighted = (Color)colorvalue;
-                        btnSender.Background = highLighted;
-                        btnSender.TextColor = Colors.White;
-
+                        App.Current.Resources.TryGetValue("HighlightedCell", out object? high);
+                        btnSender.Style = (Style)high;
                     }
                 }
                 if(board.VerifyBoard())
                 {
-
                     Co.Background = Brush.Green;
                     foreach(Button bt in views)
                     {
@@ -107,23 +90,19 @@ namespace SudokuMobileApp
         {
             foreach(Button btn in views)
             {
-
                 string pos = btn.AutomationId;
 
                 string x = pos.Split(':')[0];
                 string y = pos.Split(':')[1];
                 if(btn.Text.ToString() == con)
                 {
-                    App.Current.Resources.TryGetValue("HighlightedCellBackGround", out object? colorvalue);
-                    Color highLighted = (Color)colorvalue;
-                    btn.Background = highLighted;
-                    //btn.Background = Brush.Blue;
-                    btn.TextColor = Colors.White;
+                    App.Current.Resources.TryGetValue("HighlightedCell", out object? high);
+                    btn.Style = (Style)high;
                 }
                 else
                 {
-                    btn.Background = Brush.Transparent;
-                    btn.TextColor = Colors.Black;
+                    App.Current.Resources.TryGetValue("PopCell", out object? high);
+                    btn.Style = (Style)high;
                 }
             }
         }
@@ -131,7 +110,6 @@ namespace SudokuMobileApp
         {
             foreach(Button v in views)
             {
-
                 string pos = v.AutomationId;
 
                 string x = pos.Split(':')[0];
@@ -141,15 +119,21 @@ namespace SudokuMobileApp
                     SudokuBoardLibrary.Cell cell = board.Grid[Convert.ToInt32(x), Convert.ToInt32(y)];
                     if(cell.IsGiven)
                     {
-                        App.Current.Resources.TryGetValue("GivenCellBackGround", out object? colorvalue);
-                        Color HighLighted = (Color)colorvalue;
-                        v.Background = HighLighted;
-                        v.TextColor = Colors.Black;
+                        App.Current.Resources.TryGetValue("GivenCell", out object? high);
+                        v.Style = (Style)high;
                     }
                     else
                     {
-                        v.Background = Brush.Transparent;
-                        v.TextColor = Colors.White;
+                        if(cell.IsPopulated)
+                        {
+                            App.Current.Resources.TryGetValue("PopCell", out object? high);
+                            v.Style = (Style)high;
+                        }
+                        else
+                        {
+                            App.Current.Resources.TryGetValue("OpenCell", out object? high);
+                            v.Style = (Style)high;
+                        }
                     }
                 }
             }
@@ -158,14 +142,8 @@ namespace SudokuMobileApp
         private void RadioButton_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             RadioButton? radioButton = sender as RadioButton;
-            //radioButton.InputTransparent = true;
             object g = radioButton.FindByName("rdoDefualt");
             RadioButton? f = g as RadioButton;
-            //f.IsChecked = true;
-            //if(NumberSelected == false)
-            //{
-            //    NumberSelected = true;
-            //}
             if(radioButton?.IsChecked == true)
             {
                 if(radioButton.Value.ToString() == inValue)
@@ -175,10 +153,7 @@ namespace SudokuMobileApp
                 }
                 else
                 {
-
                     inValue = radioButton.Value.ToString();
-                    // Debug.WriteLine($"Selected Value: {inValue}");
-
                     HighLight(inValue);
                     DeHighLight(inValue);
                 }
@@ -191,7 +166,7 @@ namespace SudokuMobileApp
             board.ResetBoard();
             foreach(Button btn in views)
             {
-                if(btn.Text ==" ")
+                if(btn.Text == " ")
                 {
                     btn.TextColor = Colors.Red;
                 }
@@ -210,12 +185,10 @@ namespace SudokuMobileApp
 
         private void Button_Clicked(object sender, EventArgs e)
         {
-
             GenrateGame();
         }
 
         public void Reset_Clicked(object sender, EventArgs e)
-
         {
             rdoRemove.IsChecked = true;
             board.ResetBoard();
@@ -228,24 +201,23 @@ namespace SudokuMobileApp
                 string y = pos.Split(':')[1];
 
                 SudokuBoardLibrary.Cell cell = board.Grid[Convert.ToInt32(x), Convert.ToInt32(y)];
-                if(cell.CellValue ==0)
+                if(cell.CellValue == 0)
                 {
-                    btn.Text =" ";
+                    btn.Text = " ";
                 }
                 else
                 {
-
-                    btn.Text =cell.CellValue.ToString();
+                    btn.Text = cell.CellValue.ToString();
                 }
                 if(cell.IsGiven)
                 {
-                    App.Current.Resources.TryGetValue("GivenCellBackGround", out object? colorvalue);
-                    Color HighLighted = (Color)colorvalue;
-                    btn.Background = HighLighted;
+                    App.Current.Resources.TryGetValue("GivenCell", out object? high);
+                    btn.Style = (Style)high;
                 }
                 else
                 {
-                    btn.Background = Brush.Transparent;
+                    App.Current.Resources.TryGetValue("OpenCell", out object? high);
+                    btn.Style = (Style)high;
                 }
             }
         }
@@ -253,7 +225,6 @@ namespace SudokuMobileApp
         {
             views.Clear();
             Co.Background = Brush.Orange;
-            board = sudukoBoardGenerator.SetBoard(30);
 
             views.IsVisible = true;
 
@@ -263,31 +234,53 @@ namespace SudokuMobileApp
                 for(int col = 0; col < board.Grid.GetLength(1); col++)
                 {
                     SudokuBoardLibrary.Cell cell = board.Grid[row, col];
-                    Button cellButton = new Button {
-                        CornerRadius = 50
-                    };
-                    if(cell.CellValue ==0)
+                    Button cellButton = new Button
                     {
-                        cellButton.Text =" ";
+                        CornerRadius = 50,
+                        BindingContext = cell
+                    };
+                    if(cell.CellValue == 0)
+                    {
+                        cellButton.Text = " ";
                     }
                     else
                     {
-                        cellButton.Text =cell.CellValue.ToString();
+                        cellButton.Text = cell.CellValue.ToString();
                     }
+
                     if(cell.IsGiven)
                     {
-                        App.Current.Resources.TryGetValue("GivenCellBackGround", out object? colorvalue);
-                        Color HighLighted = (Color)colorvalue;
-                        cellButton.Background = HighLighted;
-                        cellButton.TextColor = Colors.Black;
+                        if(App.Current.Resources.TryGetValue("GivenCell", out object? high))
+                        {
+                            cellButton.Style = (Style)high;
+                        }
+                        else
+                        {
+                            cellButton.Background = Brush.Blue;
+                        }
                     }
                     else
                     {
-                        cellButton.Background = Brush.Transparent;
-                        cellButton.TextColor = Colors.White;
+                        int line = 0;
+
+                        if(App.Current.Resources.TryGetValue("OpenCell", out object? high))
+                        {
+                            cellButton.Style = (Style)high;
+                        }
+                        else
+                        {
+                            if(App.Current.Resources.TryGetValue("OpenCellBackGround", out object? colorV))
+                            {
+                                cellButton.Background = (Color)colorV;
+                            }
+                            else
+                            {
+                                Debug.WriteLine("OpenCellBackGround");
+                            }
+                        }
                     }
-                    cellButton.AutomationId =$"{row}:{col}";// new SudukoBoardLibary.Cell(row, col, cell);
-                    cellButton.Clicked +=(sender, e) => OnClicked(sender, e);
+                    cellButton.AutomationId = $"{row}:{col}";
+                    cellButton.Clicked += (sender, e) => OnClicked(sender, e);
                     cellButton.IsEnabled = true;
                     Grid.SetRow(cellButton, row);
                     Grid.SetColumn(cellButton, col);
@@ -297,4 +290,94 @@ namespace SudokuMobileApp
             }
         }
     }
+
+    public class CellTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate GivenCellTemplate { get; set; }
+        public DataTemplate PopulatedCellTemplate { get; set; }
+        public DataTemplate OpenCellTemplate { get; set; }
+        public DataTemplate HighlightedCellTemplate { get; set; }
+
+        protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
+        {
+            CellViewModel? cell = item as CellViewModel;
+
+            if(cell == null)
+            {
+                return OpenCellTemplate;
+            }
+
+            if(cell.isGiven)
+            {
+                return GivenCellTemplate;
+            }
+            if(cell.isPopulated)
+            {
+                return PopulatedCellTemplate;
+            }
+
+            return OpenCellTemplate;
+        }
+    }
+    public class CellViewModel : INotifyPropertyChanged
+    {
+        public SudokuBoardLibrary.Cell _cell { get; set; }
+        public int CellValue { get; set; }
+        public bool isGiven { get; set; }
+        public bool isPopulated { get; set; }
+
+        public List<string> possable { get; set; }
+
+        public CellViewModel(SudokuBoardLibrary.Cell cell)
+        {
+            CellValue = cell.CellValue;
+            isGiven = cell.IsGiven;
+            isPopulated = cell.IsPopulated;
+            possable = [.. cell.CellPossible.OrderBy(p => p).Select(p => p.ToString()).ToList()];
+            _cell = cell;
+        }
+
+        // Notify UI of property change
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string? name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+    }
+
+    public class InverseBoolConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return !(bool)value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ContainsValueToTextConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            IList<int>? list = value as IList<int>;
+            int target = int.Parse(parameter.ToString());
+
+            if(list != null && list.Contains(target))
+            {
+
+                return target.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

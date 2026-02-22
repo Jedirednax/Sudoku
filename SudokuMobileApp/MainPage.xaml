@@ -1,15 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SudokuMobileApp;assembly=SudokuMobileApp"
              x:Class="SudokuMobileApp.MainPage">
+             <!--xmlns:localBoard="clr-namespace:SudokuBoardLibrary;assembly=SudokuBoardLibrary"-->
 
-    <ScrollView VerticalOptions="FillAndExpand">
-        <VerticalStackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Center">
+    <ScrollView>
+        <VerticalStackLayout HorizontalOptions="Center">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="1"/>
+                    <RowDefinition Height="3*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
@@ -25,8 +28,9 @@
                 <Line Grid.Row="2"></Line>
 
             </Grid>
+            
             <Line HeightRequest="5"></Line>
-            <Grid x:Name="Co" ColumnSpacing="2" RowSpacing="2" BackgroundColor="Orange" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
+            <Grid x:Name="Co" ColumnSpacing="2" RowSpacing="2" BackgroundColor="Orange" HorizontalOptions="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="3*"/>
                     <RowDefinition Height="3*"/>
@@ -48,11 +52,13 @@
                 <BoxView Grid.Row="1" Grid.Column="2" Color="#333333"/>
                 <BoxView Grid.Row="2" Grid.Column="2" Color="#333333"/>
 
+
                 <Grid x:Name="views" ColumnSpacing="4" RowSpacing="4" Grid.ColumnSpan="3" Grid.RowSpan="3"  BackgroundColor="Transparent"/>
 
             </Grid>
-            <!--<CollectionView ItemsSource="{Binding Cells}" />-->
 
+                <!--ItemTemplate="{StaticResource SudokuCellTemplate}"-->
+            <!--</CollectionView>-->
 
             <FlexLayout HorizontalOptions="Center" Wrap="Wrap">
 
@@ -127,12 +133,30 @@
                     </RadioButton>
                 </HorizontalStackLayout>
             </FlexLayout>
-
+            <!--<CollectionView x:Name="testCol" Grid.Row="3" Grid.Column="1"
+                ItemsLayout="VerticalGrid, 9"
+                ItemsSource="{Binding cells}"
+                ItemTemplate="{StaticResource  cellDataTemplateSelector }" 
+                WidthRequest="900" HeightRequest="900"
+                            Background="#333333"/>-->
+                <!--ItemSizingStrategy="MeasureAllItems"-->
         </VerticalStackLayout>
-
     </ScrollView>
 
     <ContentPage.Resources>
+
+
+        <ControlTemplate x:Key="btnTest">
+
+            <Button >
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button" Binding="{Binding Source={x:Reference IsGiven}}" Value="true">
+                        <Setter Property="BackgroundColor" Value="Beige"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </ControlTemplate>
+
         <ControlTemplate x:Key="RadioButtonTemplate">
             <Border Stroke="#F3F2F1"
                     StrokeThickness="2"
@@ -164,17 +188,8 @@
                         </VisualStateGroup>
                     </VisualStateGroupList>
                 </VisualStateManager.VisualStateGroups>
-                <!--<Grid Margin="4"
-                      WidthRequest="30">
-                    
-                </Grid>-->
                 <ContentPresenter />
             </Border>
         </ControlTemplate>
-
-        <!--<Style TargetType="RadioButton">
-            <Setter Property="ControlTemplate"
-                    Value="{StaticResource RadioButtonTemplate}" />
-        </Style>-->
     </ContentPage.Resources>
 </ContentPage>
