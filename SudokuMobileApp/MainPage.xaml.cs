@@ -14,7 +14,7 @@ namespace SudokuMobileApp
         public Button last;
         public static Board board;
         Generator BoardGenerator = new Generator();
-        
+
         public ObservableCollection<CellViewModel> cells { get; set; } = [];
 
         public static bool NumberSelected = false;
@@ -42,7 +42,7 @@ namespace SudokuMobileApp
             {
                 cells.Add(new CellViewModel(item));
             }
-            
+
             inValue = "0";
         }
 
@@ -73,6 +73,7 @@ namespace SudokuMobileApp
                         btnSender.Text = inValue;
                         App.Current.Resources.TryGetValue("HighlightedCell", out object? high);
                         btnSender.Style = (Style)high;
+                        UpdateProps(btnSender);
                     }
                 }
                 if(board.VerifyBoard())
@@ -85,6 +86,105 @@ namespace SudokuMobileApp
                 }
             }
         }
+
+        private void UpdateProps(object sender)
+        {
+            Button? btnSender = sender as Button;
+            string pos = btnSender.AutomationId;
+
+            string x = pos.Split(':')[0];
+            string y = pos.Split(':')[1];
+            string b = pos.Split(':')[2];
+
+            foreach(var cellItem in views.Where(ro => ro.AutomationId.Split(':')[0] == x))
+            {
+
+
+                int line = 0;
+                //if(cellItem)
+                //{
+                //}
+                var cb =cellItem as Button;
+
+                if(cb.Text.Length > 1)
+                {
+                    string pops = "";
+                    foreach(int p in board.GetCell(Convert.ToInt32(cb.AutomationId.Split(':')[0]),
+                        Convert.ToInt32(cb.AutomationId.Split(':')[1])).CellPossible)
+                    {
+                        line++;
+                        pops += p.ToString() + " ";
+                        if(line % 3 == 0)
+                        {
+                            pops += "\n";
+                        }
+                    }
+                    cb.Text = pops;
+                    Debug.WriteLine(cb.Text);
+                    Debug.WriteLine("-------");
+                }
+            }
+
+
+            foreach(var cellItem in views.Where(ro => ro.AutomationId.Split(':')[1] == y))
+            {
+
+
+                int line = 0;
+                //if(cellItem)
+                //{
+                //}
+                var cb =cellItem as Button;
+
+                if(cb.Text.Length > 1)
+                {
+                    string pops = "";
+                    foreach(int p in board.GetCell(Convert.ToInt32(cb.AutomationId.Split(':')[0]),
+                        Convert.ToInt32(cb.AutomationId.Split(':')[1])).CellPossible)
+                    {
+                        line++;
+                        pops += p.ToString() + " ";
+                        if(line % 3 == 0)
+                        {
+                            pops += "\n";
+                        }
+                    }
+                    cb.Text = pops;
+                    Debug.WriteLine(cb.Text);
+                    Debug.WriteLine("-------");
+                }
+            }
+
+            foreach(var cellItem in views.Where(ro => ro.AutomationId.Split(':')[2] == b))
+            {
+
+
+                int line = 0;
+                //if(cellItem)
+                //{
+                //}
+                var cb =cellItem as Button;
+
+                if(cb.Text.Length > 1)
+                {
+                    string pops = "";
+                    foreach(int p in board.GetCell(Convert.ToInt32(cb.AutomationId.Split(':')[0]),
+                        Convert.ToInt32(cb.AutomationId.Split(':')[1])).CellPossible)
+                    {
+                        line++;
+                        pops += p.ToString() + " ";
+                        if(line % 3 == 0)
+                        {
+                            pops += "\n";
+                        }
+                    }
+                    cb.Text = pops;
+                    Debug.WriteLine(cb.Text);
+                    Debug.WriteLine("-------");
+                }
+            }
+        }
+
 
         private void HighLight(string con)
         {
@@ -228,7 +328,7 @@ namespace SudokuMobileApp
 
             views.IsVisible = true;
 
-            int wd =40;
+            int wd =60;
             for(int row = 0; row < board.Grid.GetLength(0); row++)
             {
                 for(int col = 0; col < board.Grid.GetLength(1); col++)
@@ -278,8 +378,22 @@ namespace SudokuMobileApp
                                 Debug.WriteLine("OpenCellBackGround");
                             }
                         }
+
+                        string pops = "";
+                        foreach(int p in cell.CellPossible)
+                        {
+                            line++;
+                            pops += p.ToString() + " ";
+                            if(line % 3 == 0)
+                            {
+                                pops += "\n";
+                            }
+                        }
+                        cellButton.Text = pops;
+                        //Grid miniGrid = PropsGrid(cell.CellPossible);
+
                     }
-                    cellButton.AutomationId = $"{row}:{col}";
+                    cellButton.AutomationId = $"{row}:{col}:{cell.CellBlock}";// new SudukoBoardLibary.Cell(row, col, cell);
                     cellButton.Clicked += (sender, e) => OnClicked(sender, e);
                     cellButton.IsEnabled = true;
                     Grid.SetRow(cellButton, row);
@@ -289,7 +403,81 @@ namespace SudokuMobileApp
                 }
             }
         }
+
+        public Grid PropsGrid(List<int> props)
+        {
+            Grid grdProps = [];
+
+            grdProps.AddColumnDefinition(new ColumnDefinition());
+            grdProps.AddColumnDefinition(new ColumnDefinition());
+            grdProps.AddColumnDefinition(new ColumnDefinition());
+
+            grdProps.AddRowDefinition(new RowDefinition());
+            grdProps.AddRowDefinition(new RowDefinition());
+            grdProps.AddRowDefinition(new RowDefinition());
+
+            foreach(int i in props)
+            {
+                Label newCon = new Label
+                {
+                    Text = i.ToString()
+                };
+                if(i == 0)
+                {
+                    continue;
+                }
+                else if(i == 1)
+                {
+                    Grid.SetRow(newCon, 0);
+                    Grid.SetColumn(newCon, 0);
+                }
+                else if(i == 2)
+                {
+                    Grid.SetRow(newCon, 0);
+                    Grid.SetColumn(newCon, 1);
+                }
+                else if(i == 3)
+                {
+                    Grid.SetRow(newCon, 0);
+                    Grid.SetColumn(newCon, 2);
+                }
+                else if(i == 4)
+                {
+                    Grid.SetRow(newCon, 1);
+                    Grid.SetColumn(newCon, 0);
+                }
+                else if(i == 5)
+                {
+                    Grid.SetRow(newCon, 1);
+                    Grid.SetColumn(newCon, 1);
+                }
+                else if(i == 6)
+                {
+                    Grid.SetRow(newCon, 1);
+                    Grid.SetColumn(newCon, 2);
+                }
+                else if(i == 7)
+                {
+                    Grid.SetRow(newCon, 2);
+                    Grid.SetColumn(newCon, 0);
+                }
+                else if(i == 8)
+                {
+                    Grid.SetRow(newCon, 2);
+                    Grid.SetColumn(newCon, 1);
+                }
+                else if(i == 9)
+                {
+                    Grid.SetRow(newCon, 2);
+                    Grid.SetColumn(newCon, 2);
+                }
+                grdProps.AddLogicalChild(newCon);
+            }
+            return grdProps;
+        }
     }
+
+
 
     public class CellTemplateSelector : DataTemplateSelector
     {
