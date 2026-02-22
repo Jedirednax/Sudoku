@@ -104,7 +104,7 @@ namespace SudokuMobileApp
                 cells.Add(new CellViewModel(item));
             }
             //testCol
-            testCol.ItemsSource = cells;
+            //testCol.ItemsSource = cells;
 
             inValue = "0";
         }

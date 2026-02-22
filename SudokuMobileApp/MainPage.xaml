@@ -133,12 +133,12 @@
                     </RadioButton>
                 </HorizontalStackLayout>
             </FlexLayout>
-            <CollectionView x:Name="testCol" Grid.Row="3" Grid.Column="1"
+            <!--<CollectionView x:Name="testCol" Grid.Row="3" Grid.Column="1"
                 ItemsLayout="VerticalGrid, 9"
                 ItemsSource="{Binding cells}"
                 ItemTemplate="{StaticResource  cellDataTemplateSelector }" 
                 WidthRequest="900" HeightRequest="900"
-                            Background="#333333"/>
+                            Background="#333333"/>-->
                 <!--ItemSizingStrategy="MeasureAllItems"-->
         </VerticalStackLayout>
     </ScrollView>
